@@ -68,6 +68,6 @@ func largestRectangleArea(heights []int) int {
 	return ans
 }
 func main() {
-	heights := pkg.CreateIntSlice[int]()
+	heights := pkg.CreateSlice[int]()
 	fmt.Println(largestRectangleArea(heights))
 }

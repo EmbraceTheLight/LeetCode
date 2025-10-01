@@ -35,6 +35,6 @@ func maxSlidingWindowR(nums []int, k int) []int {
 func main() {
 	var k int
 	fmt.Scan(&k)
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(maxSlidingWindowR(nums, k))
 }

@@ -36,6 +36,6 @@ func trapR2(height []int) int {
 	return ans
 }
 func main() {
-	heights := pkg.CreateIntSlice[int]()
+	heights := pkg.CreateSlice[int]()
 	fmt.Println(trapR2(heights))
 }

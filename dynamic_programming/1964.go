@@ -46,8 +46,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 func longestObstacleCourseAtEachPosition(obstacles []int) []int {
@@ -68,6 +68,6 @@ func longestObstacleCourseAtEachPosition(obstacles []int) []int {
 	return ans
 }
 func main() {
-	obs := pkg.CreateIntSlice[int]()
+	obs := pkg.CreateSlice[int]()
 	fmt.Println(longestObstacleCourseAtEachPosition(obs))
 }

@@ -13,7 +13,7 @@ package main
 
 import (
 	"fmt"
-	"lc/100/pkg"
+	"lc/pkg"
 )
 
 var mp map[int]int //键:inorder的值,值：inorder的索引

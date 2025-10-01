@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 func lengthOfLISR(nums []int) int {
@@ -21,6 +21,6 @@ func lengthOfLISR(nums []int) int {
 }
 
 func main() {
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(lengthOfLISR(nums))
 }

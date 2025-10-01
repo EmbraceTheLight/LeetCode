@@ -53,6 +53,6 @@ func permute(nums []int) [][]int {
 	return ans
 }
 func main() {
-	nums := pkg.CreateIntSlice()
+	nums := pkg.CreateSlice()
 	fmt.Println(permute(nums))
 }

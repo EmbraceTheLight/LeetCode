@@ -47,6 +47,6 @@ func main() {
 	fmt.Println("input fee:")
 	var fee int
 	fmt.Scan(&fee)
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(maxProfit714(nums, fee))
 }

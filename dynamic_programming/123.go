@@ -36,8 +36,8 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"lc/pkg"
+	"math"
 )
 
 // 方法1
@@ -71,6 +71,6 @@ func maxProfit123dp1(prices []int) int {
 //		}
 //	}
 func main() {
-	prices := pkg.CreateIntSlice[int]()
+	prices := pkg.CreateSlice[int]()
 	fmt.Println(maxProfit123dp1(prices))
 }

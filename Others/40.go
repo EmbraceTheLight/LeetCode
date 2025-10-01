@@ -26,8 +26,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 func check(s1, s2 []int) bool {
@@ -75,7 +75,7 @@ func main() {
 	fmt.Println("Input target:")
 	var target int
 	fmt.Scan(&target)
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(combinationSum2(nums, target))
 
 }

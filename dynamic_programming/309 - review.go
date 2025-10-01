@@ -21,6 +21,6 @@ func maxProfit309R(prices []int) int {
 }
 
 func main() {
-	prices := pkg.CreateIntSlice[int]()
+	prices := pkg.CreateSlice[int]()
 	fmt.Println(maxProfit309R(prices))
 }

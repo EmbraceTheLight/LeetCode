@@ -26,8 +26,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 func lengthOfLIS(nums []int) int {
@@ -62,6 +62,6 @@ func lengthOfLISDP(nums []int) int {
 	return ans
 }
 func main() {
-	sli := pkg.CreateIntSlice[int]()
+	sli := pkg.CreateSlice[int]()
 	fmt.Println(lengthOfLIS(sli))
 }

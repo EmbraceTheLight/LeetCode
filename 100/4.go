@@ -102,7 +102,7 @@ func getKthElement(nums1, nums2 []int, k int) int {
 	}
 }
 func main() {
-	nums1 := pkg.CreateIntSlice[int]()
-	nums2 := pkg.CreateIntSlice[int]()
+	nums1 := pkg.CreateSlice[int]()
+	nums2 := pkg.CreateSlice[int]()
 	fmt.Println(findMedianSortedArrays(nums1, nums2))
 }

@@ -145,7 +145,7 @@ func trapBest(height []int) int {
 }
 
 func main() {
-	heights := pkg.CreateIntSlice[int]()
+	heights := pkg.CreateSlice[int]()
 	fmt.Println(trap(heights))
 	fmt.Println(trapBest(heights))
 }

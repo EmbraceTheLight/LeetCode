@@ -76,6 +76,6 @@ func main() {
 	var m, n int
 	fmt.Println("Input m,n")
 	fmt.Scan(&m, &n)
-	strs := pkg.CreateIntSlice[string]()
+	strs := pkg.CreateSlice[string]()
 	fmt.Println(findMaxForm(strs, m, n))
 }

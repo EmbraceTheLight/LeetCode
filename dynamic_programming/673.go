@@ -57,6 +57,6 @@ func findNumberOfLIS(nums []int) int {
 	return ans
 }
 func main() {
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(findNumberOfLIS(nums))
 }

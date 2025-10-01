@@ -68,7 +68,7 @@ func trap42twoPointer(height []int) int {
 	return ans
 }
 func main() {
-	heights := pkg.CreateIntSlice[int]()
+	heights := pkg.CreateSlice[int]()
 	fmt.Println(trap42r(heights))
 	fmt.Println(trap42twoPointer(heights))
 }

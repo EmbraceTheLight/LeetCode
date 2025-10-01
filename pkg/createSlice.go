@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func CreateIntSlice[T constraints.Ordered]() []T {
+func CreateSlice[T constraints.Ordered]() []T {
 	fmt.Println("Input row length:")
 	var length int
 	fmt.Scan(&length)
@@ -30,7 +30,7 @@ func CreateIntSlice2[T constraints.Ordered]() [][]T {
 	fmt.Scan(&rows)
 	var ret = make([][]T, 0)
 	for i := 0; i < rows; i++ {
-		var row = CreateIntSlice[T]()
+		var row = CreateSlice[T]()
 		ret = append(ret, row)
 	}
 	return ret

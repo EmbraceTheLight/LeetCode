@@ -39,8 +39,8 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"lc/pkg"
+	"math"
 )
 
 func copyValue(arr []int, left, right, val int) []int {
@@ -70,7 +70,7 @@ func mincostTickets(days []int, costs []int) int {
 	return dp[days[n-1]]
 }
 func main() {
-	days := pkg.CreateIntSlice[int]()
-	costs := pkg.CreateIntSlice[int]()
+	days := pkg.CreateSlice[int]()
+	costs := pkg.CreateSlice[int]()
 	fmt.Println(mincostTickets(days, costs))
 }

@@ -62,6 +62,6 @@ func main() {
 	fmt.Println("Input K:")
 	var k int
 	fmt.Scan(&k)
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(subarraySum(nums, k))
 }

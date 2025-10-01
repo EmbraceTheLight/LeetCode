@@ -26,8 +26,8 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"lc/pkg"
+	"math"
 )
 
 // 方法同123.go
@@ -49,6 +49,6 @@ func main() {
 	var k int
 	fmt.Println("Input k:")
 	fmt.Scan(&k)
-	prices := pkg.CreateIntSlice[int]()
+	prices := pkg.CreateSlice[int]()
 	fmt.Println(maxProfit188(k, prices))
 }

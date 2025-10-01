@@ -16,6 +16,6 @@ func robR(nums []int) int {
 }
 
 func main() {
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(robR(nums))
 }

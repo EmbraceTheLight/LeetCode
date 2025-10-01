@@ -41,6 +41,6 @@ func maxProfit309(prices []int) int {
 	return max(dp[n-1][1], dp[n-1][2])
 }
 func main() {
-	sli := pkg.CreateIntSlice[int]()
+	sli := pkg.CreateSlice[int]()
 	fmt.Println(maxProfit309(sli))
 }

@@ -48,6 +48,6 @@ func firstMissingPositive41r(nums []int) int {
 	return n + 1
 }
 func main() {
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(firstMissingPositive41r(nums))
 }

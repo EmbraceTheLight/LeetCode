@@ -61,7 +61,7 @@ func main() {
 	var diff int
 	fmt.Println("Input difference:")
 	fmt.Scan(&diff)
-	arr := pkg.CreateIntSlice[int]()
+	arr := pkg.CreateSlice[int]()
 	fmt.Println(longestSubsequence(arr, diff))
 
 }

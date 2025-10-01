@@ -31,8 +31,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 func combinationSum4(nums []int, target int) int {
@@ -60,6 +60,6 @@ func combinationSum4(nums []int, target int) int {
 func main() {
 	target := 0
 	fmt.Scan(&target)
-	nums := pkg.CreateIntSlice[int]()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(combinationSum4(nums, target))
 }

@@ -54,6 +54,6 @@ func maxUncrossedLines(nums1 []int, nums2 []int) int {
 	return dp[n1][n2]
 }
 func main() {
-	nums1, nums2 := pkg.CreateIntSlice[int](), pkg.CreateIntSlice[int]()
+	nums1, nums2 := pkg.CreateSlice[int](), pkg.CreateSlice[int]()
 	fmt.Println(maxUncrossedLines(nums1, nums2))
 }

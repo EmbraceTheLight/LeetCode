@@ -27,8 +27,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 func coinChange(coins []int, amount int) int {
@@ -75,6 +75,6 @@ func main() {
 	fmt.Println("Input amount:")
 	var amount int
 	fmt.Scan(&amount)
-	coins := pkg.CreateIntSlice[int]()
+	coins := pkg.CreateSlice[int]()
 	fmt.Println(coinChange(coins, amount))
 }

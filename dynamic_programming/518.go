@@ -93,6 +93,6 @@ func main() {
 	var amount int
 
 	fmt.Scan(&amount)
-	coins := pkg.CreateIntSlice[int]()
+	coins := pkg.CreateSlice[int]()
 	fmt.Println(change(amount, coins))
 }

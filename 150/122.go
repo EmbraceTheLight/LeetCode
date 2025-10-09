@@ -30,7 +30,7 @@ package main
 
 import (
 	"fmt"
-	"lc/100/pkg"
+	"lc/pkg"
 )
 
 func maxProfit(prices []int) int {
@@ -50,6 +50,6 @@ func maxProfit(prices []int) int {
 	return dp[len(prices)-1][0]
 }
 func main() {
-	nums := pkg.CreateIntSlice()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(maxProfit(nums))
 }

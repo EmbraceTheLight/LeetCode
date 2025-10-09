@@ -21,7 +21,7 @@ package main
 
 import (
 	"fmt"
-	"lc/100/pkg"
+	"lc/pkg"
 )
 
 //func canJump(nums []int) bool {
@@ -48,20 +48,19 @@ import (
 //	return false
 //}
 
-
-//简洁的解法，好比修路能修多远
+// 简洁的解法，好比修路能修多远
 func canJump(nums []int) bool {
 	var maxDir = 0
-	l:=len(nums)
+	l := len(nums)
 	for i := 0; i < l; i++ {
-		if i>maxDir{
+		if i > maxDir {
 			return false
 		}
-		maxDir=max(maxDir,i+nums[i])
+		maxDir = max(maxDir, i+nums[i])
 	}
 	return true
 }
 func main() {
-	nums := pkg.CreateIntSlice()
+	nums := pkg.CreateSlice[int]()
 	fmt.Println(canJump(nums))
 }

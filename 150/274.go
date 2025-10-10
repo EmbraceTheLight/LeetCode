@@ -43,15 +43,11 @@ func hIndex(citations []int) int {
 		sli[citations[i]]++
 	}
 
+	var ret int
 	// 循环计算。循环完毕后，sli[i] 表示被引用次数 ≥ i 的论文个数
+	// 从后向前遍历，遇到第一个被引用次数 i ≥ [被引用次数大于等于 i 的论文个数]，则 i 即为 h 指数
 	for i := len(sli) - 1; i >= 1; i-- {
 		sli[i-1] += sli[i]
-	}
-
-	var ret int
-
-	// 从后向前遍历，遇到第一个被引用次数 i ≥ [被引用次数大于等于 i 的论文个数]，则 i 即为 h 指数
-	for i := maxReferenced; i >= 0; i-- {
 		if sli[i] >= i {
 			ret = i
 			break

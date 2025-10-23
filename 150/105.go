@@ -16,26 +16,26 @@ import (
 	"lc/pkg"
 )
 
-var mp map[int]int //键:inorder的值,值：inorder的索引
+var mp105 map[int]int //键:inorder的值,值：inorder的索引
 
 func initMap(inorder []int) {
-	mp = make(map[int]int)
+	mp105 = make(map[int]int)
 	l := len(inorder)
 	for i := 0; i < l; i++ {
-		mp[inorder[i]] = i
+		mp105[inorder[i]] = i
 	}
 }
 
 // 后四个参数全为闭区间
 func dfs105(preorder []int, inorder []int, pstart, pend, istart, iend int) *pkg.TreeNode {
-	if len(mp) == 0 {
+	if len(mp105) == 0 {
 		initMap(inorder)
 	}
 	if pstart > pend || istart > iend {
 		return nil
 	}
 	var node = new(pkg.TreeNode)
-	idx := mp[preorder[pstart]] //得到在inorder中对应值的索引
+	idx := mp105[preorder[pstart]] //得到在inorder中对应值的索引
 	node.Val = preorder[pstart]
 
 	prelen := idx - istart

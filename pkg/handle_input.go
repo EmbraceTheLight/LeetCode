@@ -5,22 +5,52 @@ import (
 	"fmt"
 	"golang.org/x/exp/constraints"
 	"os"
+	"strconv"
 	"strings"
 )
 
 func CreateSlice[T constraints.Ordered]() []T {
-	fmt.Println("Input row length:")
-	var length int
-	fmt.Scan(&length)
-	var in T
+	var ret []T
+	scanner := bufio.NewScanner(os.Stdin)
 
-	var ret = make([]T, 0)
-	for i := 0; i < length; i++ {
-		fmt.Scan(&in)
-		ret = append(ret, in)
+	fmt.Print("Enter slice (e.g. [1, 2, 3]): ")
+	if !scanner.Scan() {
+		return ret
 	}
-	//reader := bufio.NewReader(os.Stdin)
-	//for
+	input := scanner.Text()
+	tmp := strings.Trim(input, "[]")
+	parts := strings.Split(tmp, ",")
+
+	for _, p := range parts {
+		p = strings.TrimSpace(p)
+		var val any
+		var err error
+
+		switch any(*new(T)).(type) {
+		case int:
+			var v int
+			v, err = strconv.Atoi(p)
+			val = v
+		case float64:
+			var v float64
+			v, err = strconv.ParseFloat(p, 64)
+			val = v
+		case string:
+			p = strings.Trim(p, `"`)
+			val = p
+		default:
+			fmt.Printf("unsupported type\n")
+			return ret
+		}
+
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error parsing %q: %v\n", p, err)
+			continue
+		}
+
+		ret = append(ret, val.(T))
+	}
+
 	return ret
 }
 

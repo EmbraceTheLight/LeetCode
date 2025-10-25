@@ -86,3 +86,13 @@ func CreateByteSlice2() [][]byte {
 	}
 	return ret
 }
+
+func CreateString() string {
+	var str string
+	scan := bufio.NewScanner(os.Stdin)
+	if !scan.Scan() {
+		panic("input error")
+	}
+	str = scan.Text()
+	return str
+}

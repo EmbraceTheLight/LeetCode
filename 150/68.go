@@ -149,4 +149,68 @@ func main() {
 	}
 	str = buf.String()
 	fmt.Println(str)
+
+	str = `func fullJustify(words []string, maxWidth int) []string {
+    n := len(words)
+	ans := make([]string, 0)
+
+	lineStrs := make([]string, 0)
+	strsSumLength := 0
+	for i := 0; i < n; i++ {
+		strsSumLength += len(words[i])
+		lineStrs = append(lineStrs, words[i])
+
+		// 每个单词之间至少有一个空格，算上空格，若整行的长度大于 maxWidth, 减去最后一个单词，拼接当前行，之后开始下一行
+		if strsSumLength+(len(lineStrs)-1) > maxWidth {
+			strsSumLength -= len(words[i])
+			lineStrs = lineStrs[:len(lineStrs)-1]
+
+			// 拼接单词
+			var sb strings.Builder
+			whiteSpaceLen := maxWidth - strsSumLength // 除去字符，还剩下的空格数
+			if len(lineStrs) == 1 {
+				sb.WriteString(lineStrs[0])
+				sb.WriteString(strings.Repeat(" ", maxWidth-len(lineStrs[0])))
+			} else {
+				wsBetweenWord := whiteSpaceLen / (len(lineStrs) - 1)  // 每个单词之间的空格数量
+				remainingSpace := whiteSpaceLen % (len(lineStrs) - 1) // 用于处理平均分配之后还剩下的空格
+				for j := 0; j < len(lineStrs); j++ {
+					sb.WriteString(lineStrs[j])
+					if j < len(lineStrs)-1 {
+						sb.WriteString(strings.Repeat(" ", wsBetweenWord))
+					}
+					if remainingSpace > 0 {
+						sb.WriteString(" ")
+						remainingSpace--
+					}
+				}
+			}
+
+			ans = append(ans, sb.String())
+
+			// 重置
+			i-- // 回退到上一个单词
+			strsSumLength = 0
+			lineStrs = make([]string, 0)
+		}
+	}
+
+	// 最后一行算上空格，长度肯定小于等于 maxWidth，需要单独处理
+	var sb strings.Builder
+	for i := 0; i < len(lineStrs); i++ {
+		sb.WriteString(lineStrs[i])
+		if i < len(lineStrs)-1 {
+			sb.WriteString(" ")
+		}
+	}
+	sb.WriteString(strings.Repeat(" ", maxWidth-len(sb.String())))
+	ans = append(ans, sb.String())
+	return ans
+}`
+	str = strings.ReplaceAll(str, "\n", " ")
+	str = strings.ReplaceAll(str, "\t", " ")
+	ret = fullJustify(strings.Split(str, " "), 150)
+	for _, s := range ret {
+		fmt.Println(s)
+	}
 }

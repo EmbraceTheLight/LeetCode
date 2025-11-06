@@ -17,7 +17,7 @@ func CreateSlice[T constraints.Ordered]() []T {
 	if !scanner.Scan() {
 		return ret
 	}
-	input := scanner.Text()
+	input := strings.TrimSpace(scanner.Text())
 	tmp := strings.Trim(input, "[]")
 	parts := strings.Split(tmp, ",")
 

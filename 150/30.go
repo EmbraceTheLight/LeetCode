@@ -185,6 +185,13 @@ func findSubstringBetter(s string, words []string) []int {
 	return ans
 }
 
+func copyMap(src map[string]int) map[string]int {
+	ret := make(map[string]int)
+	for k, v := range src {
+		ret[k] = v
+	}
+	return ret
+}
 func findSubstringBest(s string, words []string) []int {
 	lenS := len(s)
 	lenWords := len(words)
@@ -203,52 +210,51 @@ func findSubstringBest(s string, words []string) []int {
 		wordMp[word]++
 	}
 
-	var curLen int // 当前子串长度
-	var wordCount int
-	left, preRight := 0, 0
+	// 外层循环遍历次数为单词长度。因为再往后遍历的情况已经被处理过了。遍历时，不再逐字母遍历，而是以单词长度为单位
+	// 比如: "barfoofoobarthefoobarman" ["bar","foo","the"]
+	// i == 0 [barfoofoo]barthefoobarman
+	// i == 1 b[arfoofoob]arthefoobarman
+	// i == 2 ba[rfoofooba]rthefoobarman
+	// i == 3 bar[foofoobar]thefoobarman 这种情况在 i == 0 时会被处理，无需重复处理。当 i > 4 时，情况一样
+	for i := 0; i < lenWord; i++ {
 
-	wordFreq := make(map[string]int)
+		// 初始化滑动窗口
+		// wordFreq 为单词出现的频率，当子串中有 words 中的单词时，将该单词频率从 wordFreq 中减一。
+		// 频率减至 0 时，从 wordFreq 中删除该 k-v。若最后 wordFreq 为空，则说明这个子串即为串联子串。
+		wordFreq := copyMap(wordMp)
+		start, end := i, i
+		for ; end < lenWords*lenWord; end += lenWord {
+			curWord := s[end : end+lenWord]
+			wordFreq[curWord]--
+			if wordFreq[curWord] == 0 {
+				delete(wordFreq, curWord)
+			}
+		}
 
-	// 以 s[right, right+lenWord-1] 为当前子串,以 left 为子串起点，
-	// 找到长度 curLen 为 lenWords*lenWord 的 left、right 下标。不一定为串联子串，因为可能找到了几个重复的单词
-	for right := preRight + lenWord; right <= lenS; right = preRight + lenWord {
-		curStr := s[preRight:right]
-
-		// 找到了串联子串的一部分，即 words 中某个单词
-		if _, ok := wordMp[curStr]; ok {
-			curLen += lenWord
-			wordFreq[curStr]++
-			if wordFreq[curStr] == wordMp[curStr] {
-				wordCount++
+		// 开始滑动窗口，一次滑动一个单词
+		for ; end+lenWord <= lenS; start, end = start+lenWord, end+lenWord {
+			if len(wordFreq) == 0 {
+				ans = append(ans, start)
 			}
 
-			// 子串长度 == lenWords*lenWord，且子串中出现的 words 中单词的个数 == countWords，则找到一个串联子串
-			// 无论如何，重置状态，以便下一个子串从 left + 1 开始搜索
-			if curLen == lenWords*lenWord {
-				if wordCount == countWords {
-					ans = append(ans, left)
-				}
-
-				// 滑动窗口右移，注意重置状态
-				left = left + 1
-				wordFreq = make(map[string]int)
-				wordCount = 0
-				preRight = left
-				curLen = 0
-			} else {
-				// 遍历下一个单词
-				preRight = right
+			lastWord := s[start : start+lenWord]
+			nextWord := s[end : end+lenWord]
+			wordFreq[lastWord]++
+			if wordFreq[lastWord] == 0 {
+				delete(wordFreq, lastWord)
+			}
+			wordFreq[nextWord]--
+			if wordFreq[nextWord] == 0 {
+				delete(wordFreq, nextWord)
 			}
 
-			// 在找到串联子串之前断开了，则重置 curLen，更新 left、right，重新开始寻找。
-		} else {
-			curLen = 0
-			left++
-			wordFreq = make(map[string]int)
-			wordCount = 0
-			preRight = left
+		}
+
+		if len(wordFreq) == 0 {
+			ans = append(ans, start)
 		}
 	}
+
 	return ans
 }
 
@@ -260,5 +266,5 @@ func main() {
 	fmt.Println("Input String:")
 	fmt.Scan(&s)
 	words := pkg.CreateSlice[string]()
-	fmt.Println(findSubstringBetter(s, words))
+	fmt.Println(findSubstringBest(s, words))
 }

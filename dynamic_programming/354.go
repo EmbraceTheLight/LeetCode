@@ -23,8 +23,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 // TODO：对于二维的信封，可以将其一维（比如宽度w）按照升序排序固定
@@ -52,6 +52,6 @@ func maxEnvelopes(envelopes [][]int) int {
 	return len(tmp)
 }
 func main() {
-	env := pkg.CreateIntSlice2[int]()
+	env := pkg.CreateSlice2D[int]()
 	fmt.Println(maxEnvelopes(env))
 }

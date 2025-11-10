@@ -64,6 +64,6 @@ func mostPoints2(questions [][]int) int64 {
 	return dp[n]
 }
 func main() {
-	quess := pkg.CreateIntSlice2[int]()
+	quess := pkg.CreateSlice2D[int]()
 	fmt.Println(mostPoints(quess))
 }

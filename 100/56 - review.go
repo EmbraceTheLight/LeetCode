@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"lc/pkg"
+	"sort"
 )
 
 //func merge(intervals [][]int) [][]int {
@@ -73,6 +73,6 @@ func mergeR(intervals [][]int) [][]int {
 }
 
 func main() {
-	intervals := pkg.CreateIntSlice2[int]()
+	intervals := pkg.CreateSlice2D[int]()
 	fmt.Println(mergeR(intervals))
 }

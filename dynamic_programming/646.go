@@ -25,9 +25,9 @@ package main
 
 import (
 	"fmt"
+	"lc/pkg"
 	"math"
 	"sort"
-	"lc/pkg"
 )
 
 func findLongestChain(pairs [][]int) int {
@@ -71,6 +71,6 @@ func findLongestChainBinary(pairs [][]int) int {
 	return ans
 }
 func main() {
-	pairs := pkg.CreateIntSlice2[int]()
+	pairs := pkg.CreateSlice2D[int]()
 	fmt.Println(findLongestChain(pairs))
 }

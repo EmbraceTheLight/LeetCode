@@ -67,11 +67,15 @@ func CreateSlice[T constraints.Ordered]() []T {
 }
 
 func CreateSlice2D[T constraints.Ordered]() [][]T {
-	fmt.Println("Input 2D Array Slice. type Ctrl-D(^D) to end input. (e.g. [[1,2,3],[4,5,6]]^D)")
+	fmt.Println(`Input 2D Array Slice. type Ctrl-D(^D) to end input. 
+(e.g. [[1,2,3]
+	  ,[4,5,6]]
+^D)`)
 	scanner := bufio.NewScanner(os.Stdin)
 	var ret = make([][]T, 0)
 	for scanner.Scan() {
 		tmp := scanner.Text()
+		tmp = strings.TrimSpace(tmp)
 		tmp = strings.TrimLeft(tmp, ",") // 从输入的第二行开始，清除左逗号
 		row := makeElementSlice[T](tmp)
 		ret = append(ret, row)

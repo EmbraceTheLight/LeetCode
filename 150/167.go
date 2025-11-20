@@ -38,7 +38,7 @@ import (
 	"lc/pkg"
 )
 
-func twoSum(numbers []int, target int) []int {
+func twoSum167(numbers []int, target int) []int {
 	n := len(numbers)
 	left, right := 0, n-1
 	ans := []int{-1, -1}
@@ -65,5 +65,5 @@ func main() {
 	fmt.Scan(&target)
 	fmt.Println("Input numbers")
 	numbers := pkg.CreateSlice[int]()
-	fmt.Println(twoSum(numbers, target))
+	fmt.Println(twoSum167(numbers, target))
 }

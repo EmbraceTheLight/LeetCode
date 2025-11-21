@@ -16,23 +16,23 @@ import (
 	"lc/100/pkg"
 )
 
-func sum(node *pkg.TreeNode, cur int) int {
+func sum129(node *pkg.TreeNode, cur int) int {
 	if node.Left == nil && node.Right == nil { // 到叶子节点
 		return cur*10 + node.Val
 	}
 	var left, right int
 	cur = node.Val + cur*10 //更新当前路径总和
 	if node.Left != nil {
-		left = sum(node.Left, cur)
+		left = sum129(node.Left, cur)
 	}
 	if node.Right != nil {
-		right = sum(node.Right, cur)
+		right = sum129(node.Right, cur)
 	}
 	return left + right
 }
 func sumNumbers(root *pkg.TreeNode) int {
 	var ans int
-	ans = sum(root, 0)
+	ans = sum129(root, 0)
 	return ans
 }
 

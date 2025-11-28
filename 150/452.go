@@ -43,26 +43,25 @@ import (
 
 func findMinArrowShots(points [][]int) int {
 	n := len(points)
-	var ans int
+	ans := 1 // 初始，需要一支箭
 	sort.Slice(points, func(i, j int) bool {
 		return points[i][0] < points[j][0]
 	})
 	left, right := points[0][0], points[0][1]
 	tmp := []int{left, right} // 交集区间，在该区间内射箭可以击中多个气球
 	for i := 1; i < n; i++ {
-		if points[i][0] > tmp[0] && points[i][0] < tmp[1] {
-			tmp[0] = points[i][0]
-		} else if points[i][0] > tmp[1] { // 此时射出一箭，能击中该区间最多的气球
-			// 更新交集区间
+		// 新区间左边界在交集右侧, 更新交集区间, 同时需要多一支箭
+		if points[i][0] > tmp[1] {
 			tmp[0] = points[i][0]
 			tmp[1] = points[i][1]
 			ans++
-		}
-		if points[i][1] > tmp[0] && points[i][1] < tmp[1] {
-			tmp[1] = points[i][1]
+
+			// 新区间仍然位于交集区间内, 继续更新交集区间
+		} else {
+			tmp[0] = max(tmp[0], points[i][0])
+			tmp[1] = min(tmp[1], points[i][1])
 		}
 	}
-	ans++ // 最后一箭
 	return ans
 }
 

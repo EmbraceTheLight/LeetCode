@@ -14,18 +14,16 @@ func PrintList(res *ListNode) {
 	println()
 }
 
+// CreateList 创建一个链表。
 func CreateList() *ListNode {
-	var tmp int
+	fmt.Println("Enter list string (e.g. [1, 2, 3]): ")
+	nums := CreateSlice[int]()
 	head := new(ListNode)
 	node := head
 	head.Next = node
-	for {
-		fmt.Scan(&tmp)
-		if tmp == -1 {
-			break
-		}
+	for i := 0; i < len(nums); i++ {
 		node.Next = new(ListNode)
-		node.Next.Val = tmp
+		node.Next.Val = nums[i]
 		node = node.Next
 	}
 	return head.Next

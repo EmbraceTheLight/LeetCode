@@ -38,7 +38,7 @@ Digits	Largest		Next
 func isHappy(n int) bool {
 	mp := make(map[int]bool)
 	for n != 1 {
-		n = next(n)
+		n = next202(n)
 		if mp[n] == true {
 			return false
 		} else {
@@ -50,17 +50,17 @@ func isHappy(n int) bool {
 
 // 优化版，使用双指针，不使用 map，空间复杂度更优
 func isHappy2Pointer(n int) bool {
-	slow, fast := next(n), next(next(n))
+	slow, fast := next202(n), next202(next202(n))
 	// 情况 1：有环 则 slow 一定会被 fast 套圈追上
 	// 情况 2：无环， slow == fast == 1，循环结束
 	for slow != fast {
-		slow = next(slow)
-		fast = next(next(fast))
+		slow = next202(slow)
+		fast = next202(next202(fast))
 	}
 	return slow == 1
 }
 
-func next(n int) int {
+func next202(n int) int {
 	sum := 0
 	for n != 0 {
 		num := n % 10

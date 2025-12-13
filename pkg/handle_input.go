@@ -16,6 +16,9 @@ func stringToBytes(str string) []byte {
 func makeElementSlice[T constraints.Ordered](str string) []T {
 	var ret []T
 	tmp := strings.Trim(str, "[]")
+	if len(tmp) == 0 {
+		return nil
+	}
 	parts := strings.Split(tmp, ",")
 
 	for _, p := range parts {

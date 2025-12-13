@@ -18,6 +18,9 @@ func PrintList(res *ListNode) {
 func CreateList() *ListNode {
 	fmt.Println("Enter list string (e.g. [1, 2, 3]): ")
 	nums := CreateSlice[int]()
+	if len(nums) == 0 {
+		return nil
+	}
 	head := new(ListNode)
 	node := head
 	head.Next = node

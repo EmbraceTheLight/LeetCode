@@ -41,7 +41,7 @@ type RandomizedSet struct {
 	Vals []int
 }
 
-func Constructor() RandomizedSet {
+func Constructor380() RandomizedSet {
 	return RandomizedSet{
 		Set:  make(map[int]int), // k: val, v: index in Vals
 		Vals: make([]int, 0),
@@ -90,7 +90,7 @@ func (this *RandomizedSet) GetRandom() int {
 func main() {
 	// Test case 1
 	{
-		randomizedSet := Constructor()
+		randomizedSet := Constructor380()
 		fmt.Println(randomizedSet.Insert(1))   // 向集合中插入 1 。返回 true 表示 1 被成功地插入。
 		fmt.Println(randomizedSet.Remove(2))   // 返回 false ，表示集合中不存在 2 。
 		fmt.Println(randomizedSet.Insert(2))   // 向集合中插入 2 。返回 true 。集合现在包含 [1,2] 。
@@ -104,7 +104,7 @@ func main() {
 	fmt.Println()
 	// Test case 2
 	{
-		randomizedSet := Constructor()
+		randomizedSet := Constructor380()
 		fmt.Println(randomizedSet.Insert(0))
 		fmt.Println(randomizedSet.Insert(1))
 		fmt.Println(randomizedSet.Remove(0))

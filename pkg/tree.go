@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"strconv"
 )
 
 type TreeNode struct {
@@ -27,47 +28,55 @@ func (q *treeQueue) Push(node *TreeNode) {
 }
 
 func CreateTree() *TreeNode {
-	fmt.Println("Creating Tree, -1 == nil:")
-	var tmp int
-	fmt.Scan(&tmp)
+	fmt.Println("Enter 'tree' string (e.g. [1, 2, null, 3]): ")
+	input := CreateSlice[string]()
+	if len(input) == 0 || input[0] == "null" {
+		return nil
+	}
 
 	head := new(TreeNode)
 	node := head
 	var queue treeQueue
 	var LoR bool //指示向左节点或右节点插入数据
+
+	tmp := input[0]
+	val, _ := strconv.Atoi(tmp)
+	head.Val = val
 	queue.Push(head)
 
-	head.Val = tmp
-
-	for queue.len() > 0 {
-		fmt.Scan(&tmp)
-		node = queue.top()
-		if LoR == true {
-			queue.pop() //队列pop操作
-		}
-
-		if LoR == false { //向左节插入数据
-			LoR = true     //之后该向右节点插入数据
-			if tmp != -1 { //要插入的数据值不是null
-				node.Left = new(TreeNode)
-				node = node.Left
-				node.Val = tmp
-				queue.Push(node)
-			} else {
-				node.Left = nil
+	for i := 1; i < len(input); i++ {
+		tmp = input[i]
+		if queue.len() > 0 {
+			node = queue.top()
+			if LoR == true {
+				queue.pop() //队列pop操作
 			}
-		} else {
-			LoR = false //复原，下一个应该向左节点插入数据
-			if tmp != -1 {
-				node.Right = new(TreeNode)
-				node = node.Right
-				node.Val = tmp
-				queue.Push(node)
-			} else {
-				node.Right = nil
-			}
-		}
 
+			if LoR == false { //向左节插入数据
+				LoR = true         //之后该向右节点插入数据
+				if tmp != "null" { //要插入的数据值不是null
+					val, _ := strconv.Atoi(tmp)
+					node.Left = new(TreeNode)
+					node = node.Left
+					node.Val = val
+					queue.Push(node)
+				} else {
+					node.Left = nil
+				}
+			} else {
+				LoR = false //复原，下一个应该向左节点插入数据
+				if tmp != "null" {
+					val, _ := strconv.Atoi(tmp)
+					node.Right = new(TreeNode)
+					node = node.Right
+					node.Val = val
+					queue.Push(node)
+				} else {
+					node.Right = nil
+				}
+			}
+
+		}
 	}
 	return head
 }

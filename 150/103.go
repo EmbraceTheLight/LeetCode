@@ -6,7 +6,7 @@ package main
 
 import (
 	"fmt"
-	"lc/100/pkg"
+	"lc/pkg"
 )
 
 func zigzagLevelOrder(root *pkg.TreeNode) [][]int {

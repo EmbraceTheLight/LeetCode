@@ -39,7 +39,7 @@ func makeElementSlice[T constraints.Ordered](str string) []T {
 			p = strings.Trim(p, `"`)
 			val = p
 		case byte:
-			p = strings.Trim(p, `"`)
+			p = strings.Trim(p, `'`)
 			b := stringToBytes(p)
 			val = b[0]
 		default:

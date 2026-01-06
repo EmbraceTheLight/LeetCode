@@ -80,6 +80,44 @@ func solve(board [][]byte) {
 	}
 }
 
+// 优化: 从边缘开始检查, 不用恢复状态, 可以减少检查次数
+func solveBest(board [][]byte) {
+	rows, cols := len(board), len(board[0])
+	var dfs func(i, j int)
+	dfs = func(i, j int) {
+		if i < 0 || i >= rows || j < 0 || j >= cols || board[i][j] != 'O' {
+			return
+		}
+
+		// 设置当前位置为'#', 表示当前位置的'O'连通外界, 没有被围绕
+		board[i][j] = '#'
+		dfs(i+1, j)
+		dfs(i-1, j)
+		dfs(i, j+1)
+		dfs(i, j-1)
+	}
+	for i := 0; i < rows; i++ {
+		dfs(i, 0)
+		dfs(i, cols-1)
+
+	}
+
+	for i := 1; i < cols; i++ {
+		dfs(0, i)
+		dfs(rows-1, i)
+
+	}
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			if board[i][j] == 'O' {
+				board[i][j] = 'X'
+			} else if board[i][j] == '#' {
+				board[i][j] = 'O'
+			}
+		}
+	}
+}
+
 // Test Case1:	[['X','X','X','X'],['X','O','O','X'],['X','X','O','X'],['X','O','X','X']]	Output:	[['X','X','X','X'],['X','X','X','X'],['X','X','X','X'],['X','O','X','X']]
 // Test Case2:	[['X']]	Output:	[['X']]
 func main() {

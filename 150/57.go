@@ -68,31 +68,10 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 	return ans
 }
 
-// Test Case1:
-/*
-newInterval = [2,5]
-
-intervals:
-[[1,3]
-,[6,9]]
-^D
-
-*/
+// Test Case1: newInterval = [2,5] 	intervals:[[1,3],[6,9]]
 // Output: [[1,5],[6,9]]
 
-// Test Case2:
-/*
-newInterval = [4,8]
-
-intervals:
-[[1,2]
-,[3,5]
-,[6,7]
-,[8,10]
-,[12,16]]
-^D
-
-*/
+// Test Case2: newInterval = [4,8]	intervals:[[1,2],[3,5],[6,7],[8,10],[12,16]]
 // Output: [[1,2],[3,10],[12,16]]
 func main() {
 	newInterval := pkg.CreateSlice[int]()

@@ -30,19 +30,19 @@ Node.random 为 null 或指向链表中的节点。
 */
 package main
 
-type Node struct {
+type Node138 struct {
 	Val    int
-	Next   *Node
-	Random *Node
+	Next   *Node138
+	Random *Node138
 }
 
-func copyRandomList(head *Node) *Node {
+func copyRandomList(head *Node138) *Node138 {
 	// if 判断不加, 则无法通过 lc 测试用例，提示超时。本地可以通过
 	//if head == nil{
 	//	return nil
 	//}
 
-	mp := make(map[*Node]int)     // 键: 节点, 值: 节点的索引
+	mp := make(map[*Node138]int)  // 键: 节点, 值: 节点的索引
 	randomMp := make(map[int]int) // 键: 节点的索引, 值: 节点的 random 节点索引
 	tmp := head
 
@@ -56,37 +56,37 @@ func copyRandomList(head *Node) *Node {
 		}
 	}
 
-	dummy := &Node{0, nil, nil}
+	dummy := &Node138{0, nil, nil}
 	cur := dummy
 	dummy.Next = cur
-	var nodes []*Node
+	var Node138s []*Node138
 	for head != nil {
-		cur.Next = new(Node)
+		cur.Next = new(Node138)
 		cur.Next.Val = head.Val
 
-		nodes = append(nodes, cur.Next)
+		Node138s = append(Node138s, cur.Next)
 
 		cur = cur.Next
 		head = head.Next
 	}
 
 	for k, v := range randomMp {
-		nodes[k].Random = nodes[v]
+		Node138s[k].Random = Node138s[v]
 	}
 	return dummy.Next
 }
 
 // 更优做法, 只需一个 map 存储原节点 --> 新节点的映射关系即可。
-func copyRandomListBetter(head *Node) *Node {
+func copyRandomListBetter(head *Node138) *Node138 {
 	// if 判断不加, 则无法通过 lc 测试用例，提示超时。
 	//if head == nil{
 	//	return nil
 	//}
 
-	mp := make(map[*Node]*Node) // 键: 节点, 值: 节点的索引
+	mp := make(map[*Node138]*Node138) // 键: 节点, 值: 节点的索引
 
 	for tmp := head; tmp != nil; tmp = tmp.Next {
-		mp[tmp] = &Node{Val: tmp.Val}
+		mp[tmp] = &Node138{Val: tmp.Val}
 	}
 
 	for tmp := head; tmp != nil; tmp = tmp.Next {

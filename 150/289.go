@@ -85,21 +85,8 @@ func gameOfLife(board [][]int) {
 	}
 }
 
-// Test Case1:
-/*
-[[0,1,0]
-,[0,0,1]
-,[1,1,1]
-,[0,0,0]]
-*/
-// Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
-
-// Test Case2:
-/*
-[[1,1]
-,[1,0]]
-*/
-// Output: [[1,1],[1,1]]
+// Test Case1: [[0,1,0],[0,0,1],[1,1,1],[0,0,0]] 	Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+// Test Case2: [[1,1], [1,0]]	Output: [[1,1],[1,1]]
 func main() {
 	board := pkg.CreateSlice2D[int]()
 	gameOfLife(board)

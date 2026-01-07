@@ -65,32 +65,9 @@ func findMinArrowShots(points [][]int) int {
 	return ans
 }
 
-// Test Case1:
-/*
-[[10,16]
-,[2,8]
-,[1,6]
-,[7,12]]
-*/
-// Output: 2
-
-// Test Case2:
-/*
-[[1,2]
-,[3,4]
-,[5,6]
-,[7,8]]
-*/
-// Output: 4
-
-// Test Case3:
-/*
-[[1,2]
-,[2,3]
-,[3,4]
-,[4,5]]
-*/
-// Output: 2
+// Test Case1: [[10,16],[2,8],[1,6],[7,12]] Output: 2
+// Test Case2: [[1,2],[3,4],[5,6],[7,8]] 	Output: 4
+// Test Case3: [[1,2],[2,3],[3,4],[4,5]] 	Output: 2
 func main() {
 	points := pkg.CreateSlice2D[int]()
 	fmt.Println(findMinArrowShots(points))

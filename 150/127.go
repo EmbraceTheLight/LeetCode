@@ -130,6 +130,90 @@ func ladderLength2(beginWord string, endWord string, wordList []string) int {
 	return 0
 }
 
+// 双向 BFS, 从 beginWord 和 endWord 向中间单词遍历, 一次遍历一层, 如果能匹配的到, 一定会在中间某一层相遇
+// 相比于单向 BFS, 单向 BFS 类似于满二叉树, 而双向 BFS 则是两头尖中间宽的结构, 需要遍历的单词更少了
+func ladderLength3(beginWord string, endWord string, wordList []string) int {
+	chars := []string{
+		"a", "b", "c", "d", "e", "f",
+		"g", "h", "i", "j", "k", "l", "m",
+		"n", "o", "p", "q", "r", "s", "t", "u",
+		"v", "w", "x", "y", "z",
+	}
+	n := len(beginWord)
+	wordMap := make(map[string]int)
+	for i, w := range wordList {
+		wordMap[w] = i + 1
+	}
+	if _, ok := wordMap[endWord]; !ok || len(endWord) != n {
+		return 0
+	}
+	visit1 := make([]bool, len(wordList)+1)
+	visit2 := make([]bool, len(wordList)+1)
+	visit2[wordMap[endWord]] = true
+
+	queue1 := []string{beginWord}
+	queue2 := []string{endWord}
+
+	count := 1
+
+	for len(queue1) > 0 && len(queue2) > 0 {
+		tmpQueue := make([]string, 0)
+		for qSize := len(queue1) - 1; qSize >= 0; qSize-- {
+			top := queue1[qSize]
+			for i := 0; i < 26; i++ {
+				for j := 0; j < n; j++ {
+					tmp := top[:j] + chars[i] + top[j+1:]
+					if _, ok := wordMap[tmp]; !ok {
+						continue
+					}
+					if visit1[wordMap[tmp]] == true {
+						continue
+					}
+
+					if visit2[wordMap[tmp]] {
+						return count + 1
+					}
+					fmt.Println("↓", tmp, count)
+					visit1[wordMap[tmp]] = true
+					tmpQueue = append(tmpQueue, tmp)
+				}
+			}
+			fmt.Println()
+		}
+		count++
+		queue1 = tmpQueue
+		tmpQueue = make([]string, 0)
+
+		for qSize := len(queue2) - 1; qSize >= 0; qSize-- {
+			top := queue2[qSize]
+			for i := 0; i < 26; i++ {
+				for j := 0; j < n; j++ {
+					tmp := top[:j] + chars[i] + top[j+1:]
+					if _, ok := wordMap[tmp]; !ok {
+						continue
+					}
+					if visit2[wordMap[tmp]] == true {
+						continue
+					}
+
+					if visit1[wordMap[tmp]] {
+						return count + 1
+					}
+					fmt.Println("↑", tmp, count)
+					visit2[wordMap[tmp]] = true
+					tmpQueue = append(tmpQueue, tmp)
+				}
+			}
+			fmt.Println()
+		}
+		count++
+		queue2 = tmpQueue
+		tmpQueue = make([]string, 0)
+
+	}
+	return 0
+}
+
 // Test Case1: beginWord: "hit"	 endWord: "cog"	 wordList: ["hot","dot","dog","lot","log","cog"]	Output: 5
 // Test Case2: beginWord: "hit"	 endWord: "cog"	 wordList: ["hot","dot","dog","lot","log"]	Output: 0
 // Test Case3: beginWord: "hit"	 endWord: "cog"	 wordList: []		Output: 0
@@ -139,7 +223,7 @@ func main() {
 	fmt.Scan(&beginWord, &endWord)
 	fmt.Println("Input wordList:")
 	wordList := pkg.CreateSlice[string]()
-	fmt.Println(ladderLength(beginWord, endWord, wordList))
-	fmt.Println(ladderLength2(beginWord, endWord, wordList))
+	//fmt.Println(ladderLength(beginWord, endWord, wordList))
+	//fmt.Println(ladderLength2(beginWord, endWord, wordList))
 	fmt.Println(ladderLength3(beginWord, endWord, wordList))
 }

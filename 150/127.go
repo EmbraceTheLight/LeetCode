@@ -35,6 +35,12 @@ import (
 	"lc/pkg"
 )
 
+type wordState struct {
+	word string
+	step int
+}
+
+// 暴力解法
 func ladderLength(beginWord string, endWord string, wordList []string) int {
 	chars := []string{
 		"a", "b", "c", "d", "e", "f",
@@ -50,60 +56,74 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	if wordMap[endWord] == false || len(endWord) != n {
 		return 0
 	}
-	visit1 := make(map[string]bool)
-	visit2 := make(map[string]bool)
-	queue1 := []string{beginWord}
-	queue2 := []string{endWord}
-	count1 := 1
-	count2 := 1
-	for len(queue1) > 0 && len(queue2) > 0 {
-		top := queue1[0]
-		queue1 = queue1[1:]
-		visit1[top] = true
+	visit := make(map[string]bool)
+	queue := []wordState{{word: beginWord, step: 1}} // 求的是转换序列长度, 从 1 开始
+
+	for len(queue) > 0 {
+		top := queue[0]
+		queue = queue[1:]
+		visit[top.word] = true
 		for i := 0; i < 26; i++ {
 			for j := 0; j < n; j++ {
-				tmp := top[:j] + chars[i] + top[j+1:]
-				if wordMap[tmp] == false || visit1[tmp] == true {
+				tmp := top.word[:j] + chars[i] + top.word[j+1:]
+				if wordMap[tmp] == false || visit[tmp] == true {
 					continue
 				}
-				if visit1[tmp] && visit2[tmp] {
-					return count1 + count2 + 1
+				if tmp == endWord {
+					return top.step + 1
 				}
-				queue1 = append(queue1, tmp)
+				queue = append(queue, wordState{word: tmp, step: top.step + 1})
+				fmt.Println(wordState{word: tmp, step: top.step + 1})
 			}
 		}
 	}
+	return 0
+}
 
-	for len(queue1) > 0 && len(queue2) > 0 {
-		top := queue1[0]
-		queue1 = queue1[1:]
-		visit1[top] = true
+// 优化版本, 不使用 map[string]bool 作为 visit 的类型, 而是使用 []bool,
+// 这样直接根据单词在 wordList 中的下标判断是否遍历过该单词, 时间开销更小
+// 可以通过更多的测试用例, 但是仍然超时
+func ladderLength2(beginWord string, endWord string, wordList []string) int {
+	chars := []string{
+		"a", "b", "c", "d", "e", "f",
+		"g", "h", "i", "j", "k", "l", "m",
+		"n", "o", "p", "q", "r", "s", "t", "u",
+		"v", "w", "x", "y", "z",
+	}
+
+	n := len(beginWord)
+	wordMap := make(map[string]int)
+	for i, w := range wordList {
+		wordMap[w] = i + 1
+	}
+	if _, ok := wordMap[endWord]; !ok || len(endWord) != n {
+		return 0
+	}
+
+	// visit 数组表示是否遍历过该单词. 从 1 开始, visit[0] 无作用. 这样做, 当 beginWord 不在列 wordList 中时, 也可以对 visit[0] 赋值, 而不会影响到 wordList[0]
+	visit := make([]bool, len(wordList)+1)
+
+	queue := []wordState{{word: beginWord, step: 1}} // 求的是转换序列长度, 从 1 开始
+
+	for len(queue) > 0 {
+		top := queue[0]
+		queue = queue[1:]
+
+		visit[wordMap[top.word]] = true
 		for i := 0; i < 26; i++ {
 			for j := 0; j < n; j++ {
-				tmp := top[:j] + chars[i] + top[j+1:]
-				if wordMap[tmp] == false || visit1[tmp] == true {
+				tmp := top.word[:j] + chars[i] + top.word[j+1:]
+				if _, ok := wordMap[tmp]; !ok {
 					continue
 				}
-				if visit1[tmp] && visit2[tmp] {
-					return count1 + count2 + 1
-				}
-				queue1 = append(queue1, tmp)
-			}
-		}
-
-		top = queue2[0]
-		queue2 = queue2[1:]
-		visit2[top] = true
-		for i := 0; i < 26; i++ {
-			for j := 0; j < n; j++ {
-				tmp := top[:j] + chars[i] + top[j+1:]
-				if wordMap[tmp] == false || visit2[tmp] == true {
+				if visit[wordMap[tmp]] == true {
 					continue
 				}
-				if visit1[tmp] && visit2[tmp] {
-					return count1 + count2
+				if tmp == endWord {
+					return top.step + 1
 				}
-				queue1 = append(queue2, tmp)
+				queue = append(queue, wordState{word: tmp, step: top.step + 1})
+				fmt.Println(wordState{word: tmp, step: top.step + 1})
 			}
 		}
 	}
@@ -120,4 +140,6 @@ func main() {
 	fmt.Println("Input wordList:")
 	wordList := pkg.CreateSlice[string]()
 	fmt.Println(ladderLength(beginWord, endWord, wordList))
+	fmt.Println(ladderLength2(beginWord, endWord, wordList))
+	fmt.Println(ladderLength3(beginWord, endWord, wordList))
 }

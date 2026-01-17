@@ -47,7 +47,7 @@ type TrieNode struct {
 	children [26]*TrieNode // 对应字母的 node 为 nil, 表示该字母在当前路径中没有存储
 }
 
-func Constructor() Trie {
+func Constructor208() Trie {
 	return Trie{root: &TrieNode{}}
 }
 
@@ -94,7 +94,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 func main() {
 	// Test Case1:
 	{
-		obj := Constructor()
+		obj := Constructor208()
 		obj.Insert("apple")
 		fmt.Println(obj.Search("apple"))   // 返回 True
 		fmt.Println(obj.Search("app"))     // 返回 False

@@ -66,7 +66,7 @@ func (it *BSTIterator) inorderTraversal(root *pkg.TreeNode) {
 	it.inorderTraversal(root.Right)
 }
 
-func Constructor(root *pkg.TreeNode) BSTIterator {
+func Constructor173(root *pkg.TreeNode) BSTIterator {
 	bstIt := BSTIterator{
 		Cur:    0,
 		Values: make([]int, 0),
@@ -108,7 +108,7 @@ func main() {
 	// Test Case1
 	// 输入：[7, 3, 15, null, null, 9, 20]
 	root := pkg.CreateTree()
-	bstIt := Constructor(root)
+	bstIt := Constructor173(root)
 	{
 		fmt.Println(bstIt.Next())    // 返回 3
 		fmt.Println(bstIt.Next())    // 返回 7

@@ -80,10 +80,72 @@ func findHelper(wordMp map[byte][][2]int, str string, board [][]byte, visited ma
 	return false
 }
 
-//type trie struct {
-//	children [26]*trie
-//	isEnd    bool
-//}
+type trieNode212 struct {
+	children [26]*trieNode212
+	word     string // 该字段类型不为 bool, 而是记录该节点作为终点的单词, 方便之后根据路径查找到单词后将其存入 map 中
+}
+
+func (t *trieNode212) insert(word string) {
+	node := t
+	for _, ch := range word {
+		if node.children[ch-'a'] == nil {
+			node.children[ch-'a'] = &trieNode212{}
+		}
+		node = node.children[ch-'a']
+	}
+	node.word = word
+}
+
+// 思路: 先遍历候选单词, 根据它们创建前缀树, 之后从 board 每个位置开始遍历前缀树, 找到一个 word, 说明该 board 存在一条路径到 word,
+// 将其存入 map 中, 最后再将 map 中的所有单词提取出来, 即为所求
+// 若直接根据 board 每个位置遍历并构造前缀树, 时间复杂度较高, 会超时
+func findWords2(board [][]byte, words []string) []string {
+	direction := [][2]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+	m, n := len(board), len(board[0])
+	root := &trieNode212{}
+	for _, word := range words {
+		root.insert(word)
+	}
+
+	wordsInTrie := make(map[string]bool) // wordsInTrie 根据 board 的每个位置出发可以得到的所有单词
+	var dfs func(node *trieNode212, x, y int)
+	dfs = func(node *trieNode212, x, y int) {
+		ch := board[x][y]
+		child := node.children[ch-'a']
+		if child == nil {
+			return
+		}
+
+		if child.word != "" {
+			wordsInTrie[child.word] = true
+			child.word = "" // 优化手段, 防止重复遍历已经遍历过的节点, 对于重复度较高的 board 和 words 有很好的效果
+		}
+
+		// 临时设置特殊字符, 防止重复遍历
+		board[x][y] = '@'
+		for i := 0; i < len(direction); i++ {
+			nx, ny := x+direction[i][0], y+direction[i][1]
+			if nx < 0 || nx >= len(board) || ny < 0 || ny >= len(board[0]) || board[nx][ny] == '@' {
+				continue
+			}
+			dfs(child, nx, ny)
+		}
+		// 恢复为原来的字符
+		board[x][y] = ch
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			dfs(root, i, j)
+		}
+	}
+
+	var ans []string
+	for word := range wordsInTrie {
+		ans = append(ans, word)
+	}
+	return ans
+}
 
 // Test Case1:  [['o','a','a','n'],['e','t','a','e'],['i','h','k','r'],['i','f','l','v']]	["oath","pea","eat","rain"]	Output:	["eat","oath"]
 // Test Case2:	[['a','b'],['c','d']]	["abcb"]		Output:	[]
@@ -94,4 +156,5 @@ func main() {
 	fmt.Println("Input words:")
 	words := pkg.CreateSlice[string]()
 	fmt.Println(findWords(board, words))
+	fmt.Println(findWords2(board, words))
 }

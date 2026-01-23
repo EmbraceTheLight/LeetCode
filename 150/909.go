@@ -76,7 +76,7 @@ func snakesAndLadders(board [][]int) int {
 func getRowCol(pos int, size int) (int, int) {
 	row := (pos - 1) / size
 	col := (pos - 1) % size
-	if (pos-1)%2 == 1 {
+	if (row-1)%2 == 1 {
 		col = size - 1 - col
 	}
 	row = size - 1 - row

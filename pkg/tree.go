@@ -144,7 +144,7 @@ func printLevel(nodes []*TreeNodeInfo) {
 	end := int(math.Pow(2, float64(level)) - 1)
 	fmt.Printf("level %d: ", level)
 	for i := start; i <= end; i++ {
-		if nodes[0].id == i {
+		if len(nodes) > 0 && nodes[0].id == i {
 			fmt.Printf("%d ", nodes[0].node.Val)
 			nodes = nodes[1:]
 		} else {

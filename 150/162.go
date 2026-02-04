@@ -19,7 +19,7 @@ package main
 
 import (
 	"fmt"
-	"lc/100/pkg"
+	"lc/pkg"
 )
 
 func find(nums []int, i, j int) int {
@@ -58,5 +58,5 @@ func findPeakElement(nums []int) int {
 	return find(nums, 0, len(nums)-1)
 }
 func main() {
-	fmt.Println(findPeakElement(pkg.CreateIntSlice()))
+	fmt.Println(findPeakElement(pkg.CreateSlice[int]()))
 }

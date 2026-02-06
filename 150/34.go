@@ -18,6 +18,7 @@ import (
 	"lc/pkg"
 )
 
+// 思路: 先找到一个 target, 之后向两侧作二分, 查找左右边界
 func searchRange(nums []int, target int) []int {
 	if len(nums) == 0 {
 		return []int{-1, -1}
@@ -77,6 +78,22 @@ func findRightBoundary(nums []int, start int, target int) int {
 	return start
 }
 
+// 思路: 找到第一个 target 位置, 再找到第一个 target + 1 应出现的位置, 即为所求
+func searchRangeBetter(nums []int, target int) []int {
+	if len(nums) == 0 {
+		return []int{-1, -1}
+	}
+
+	left := search(nums, target)
+	right := search(nums, target+1)
+
+	// 未找到 target
+	if left == len(nums) || nums[left] != target {
+		return []int{-1, -1}
+	}
+	return []int{left, right - 1}
+}
+
 // Test Case1
 // nums = [5,7,7,8,8,10], target = 8
 // Output: [3,4]
@@ -99,4 +116,5 @@ func main() {
 	fmt.Println("Input nums: ")
 	nums := pkg.CreateSlice[int]()
 	fmt.Println(searchRange(nums, target))
+	fmt.Println(searchRangeBetter(nums, target))
 }

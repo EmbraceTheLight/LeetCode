@@ -27,27 +27,37 @@ func findMinR(nums []int) int {
 		return nums[0]
 	}
 	left, right := 0, n-1
+
+	// 优化: 对比中间的数与右侧的数, 这样不用进行后处理.
+	// 因为 mid := (left + right) / 2 是向下取整, 如果对比左侧数与中间数, 对于完全升序的数组, 还要进行一些后处理才行
 	for left < right {
 		mid := (left + right) / 2
-		// 左半部分有序
-		if nums[left] <= nums[mid] {
+		//// 左半部分有序
+		//if nums[left] <= nums[mid] {
+		//	left = mid + 1
+		//
+		//	// 对于 left 刚好落在最小值位置的判断
+		//	if nums[left-1] > nums[left] {
+		//		return nums[left]
+		//	}
+		//
+		//	// 右半部分有序
+		//} else {
+		//	right = mid - 1
+		//	// 对于 right 刚好落在最小值位置的判断
+		//	if nums[right] > nums[right+1] {
+		//		return nums[right+1]
+		//	}
+		//}
+
+		if nums[mid] > nums[right] {
+			// 这里 left = mid + 1, 因为 nums[mid] 不是最小的, 它至少还比 nums[right] 大
 			left = mid + 1
-
-			// 对于 left 刚好落在最小值位置的判断
-			if nums[left-1] > nums[left] {
-				return nums[left]
-			}
-
-			// 右半部分有序
 		} else {
-			right = mid - 1
-			// 对于 right 刚好落在最小值位置的判断
-			if nums[right] > nums[right+1] {
-				return nums[right+1]
-			}
+			right = mid
 		}
 	}
-	return nums[(left+1)%n]
+	return nums[left]
 }
 
 /*

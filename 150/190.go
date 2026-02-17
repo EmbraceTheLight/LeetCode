@@ -11,12 +11,22 @@ package main
 import (
 	"fmt"
 	"math"
+	"strconv"
 )
 
 func reverseBits(n int) int {
-
+	reverseStr := func(s string) string {
+		i, j := 0, len(s)-1
+		b := []byte(s)
+		for ; i < j; i, j = i+1, j-1 {
+			b[i], b[j] = b[j], b[i]
+		}
+		return string(b)
+	}
+	return binaryToDecimal(reverseStr(decimalToBinary(n)))
 }
 
+// 二进制转十进制
 func binaryToDecimal(s string) int {
 	var num int
 	n := len(s)
@@ -30,10 +40,24 @@ func binaryToDecimal(s string) int {
 	return num
 }
 
+// 十进制转二进制. 注意补充位数至 32 位.
+// 由于本题指定 n 只能为非负数, 因此补充过程中不需要注意符号位是 1 (负数)还是 0 (正数)
 func decimalToBinary(n int) string {
 	var s string
-
-	return s
+	for n > 0 {
+		s = strconv.Itoa(n%2) + s
+		n = n / 2
+	}
+	tmp := ""
+	for i := 0; i < 31-len(s); i++ {
+		tmp += "0"
+	}
+	//if n < 0 {
+	//	tmp = "1" + tmp
+	//} else {
+	//	tmp = "0" + tmp
+	//}
+	return tmp + s
 }
 
 // 示例 1：
@@ -55,4 +79,5 @@ func main() {
 	var num int
 	fmt.Println("Input num:")
 	fmt.Scan(&num)
+	fmt.Println(reverseBits(num))
 }

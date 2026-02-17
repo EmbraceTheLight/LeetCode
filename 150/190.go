@@ -60,6 +60,17 @@ func decimalToBinary(n int) string {
 	return tmp + s
 }
 
+// 使用位运算, 无需进制转换
+func reverseBitsBetter(n int) int {
+	var ret int
+	for i := 0; i < 32; i++ {
+		curBit := n & 1
+		ret = ret | (curBit << (31 - i))
+		n >>= 1
+	}
+	return ret
+}
+
 // 示例 1：
 // 输入：n = 43261596
 // 输出：964176192
@@ -80,4 +91,5 @@ func main() {
 	fmt.Println("Input num:")
 	fmt.Scan(&num)
 	fmt.Println(reverseBits(num))
+	fmt.Println(reverseBitsBetter(num))
 }

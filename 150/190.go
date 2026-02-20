@@ -96,6 +96,11 @@ func reverseBitsBest(n int) int {
 		MASK5 = 0x0000ffff // 00000000000000001111111111111111
 	)
 	ret := n
+	// 运算符优先级: >>  >  &. 会先运算 >> | << 再运算 &
+	// | 左侧为先将 ret 右移一位, 再与 MASK1 进行与运算, 得到 ret 偶数位
+	// | 右侧为先将 MASK1 左移一位, 再将 ret 与它结果进行与运算, 得到 ret 奇数位
+	// 最终将偶数位 | 奇数位, 重新拼接 ret, 此时 ret 的奇偶位置互换.
+	// 下同
 	ret = ret>>1&MASK1 | ret&MASK1<<1
 	ret = ret>>2&MASK2 | ret&MASK2<<2
 	ret = ret>>4&MASK3 | ret&MASK3<<4

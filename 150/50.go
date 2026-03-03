@@ -38,6 +38,30 @@ func dfs50(cur float64, exp int) float64 {
 	}
 }
 
+// myPowIteration 迭代法, 不使用递归
+// 空间复杂度 O(1)
+func myPowIteration(x float64, n int) float64 {
+	ans := 1.0
+	tmp := x
+	exp := n
+	if n < 0 {
+		exp = -exp
+	}
+
+	for exp > 0 {
+		// * 当前指数为奇数时, 需要额外乘以 x, 使得指数变成偶数
+		if exp%2 == 1 {
+			ans = ans * tmp
+		}
+		tmp *= tmp // * 当前指数为偶数时, 直接令 tmp * tmp. 最后指数一定会变成 1 的, 从而将 tmp 赋值给 ans
+		exp /= 2
+	}
+	if n < 0 {
+		ans = 1 / ans
+	}
+	return ans
+}
+
 // 示例 1：
 // 输入：x = 2.00000, n = 10
 // 输出：1024.00000

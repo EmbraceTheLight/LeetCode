@@ -23,18 +23,23 @@ type point struct {
 
 func maxPoints(points [][]int) int {
 	var ans int
-
+	// * 思路1: 遍历每个点, 以其为原点, 其他点到它组成的直线的斜率
+	// * 斜率相同的点, 它们一定在同一条直线上
+	// * 这样一来, 就不需要考虑截距的问题了, 只考虑斜率即可
 	for i := 0; i < len(points); i++ {
-		mp := make(map[float64]int) // key: 斜率  value: 该斜率出现的次数
+		// 临时 map, 统计以 points[i] 作为坐标原点, 其他点与它组成的直线的斜率的次数
+		mp := make(map[float64]int) // key: 斜率  value: 该斜率出现的次数.
 		x1, y1 := points[i][0], points[i][1]
 		for j := i + 1; j < len(points); j++ {
 			x2, y2 := points[j][0], points[j][1]
+			// 这里注意: 考虑斜率为无穷的情况, 即 x1 == x2, 此时设置 k 的默认值为 math.MaxFloat64
+			// 如果不设置 k 的默认值, 最终对于同一条直线上的点如 (0,0) (0,1) (0,-1), 会得到 -inf 和 +inf 两个"斜率", 导致结果错误
 			k := math.MaxFloat64
 			if x2-x1 != 0 {
 				k = float64(y2-y1) / float64(x2-x1)
 			}
 			mp[k]++
-			ans = max(ans, mp[k])
+			ans = max(ans, mp[k]) // ans 最后记得加一, 因为直线上的点包含"原点"本身
 		}
 
 	}

@@ -52,6 +52,34 @@ func calculateKB(x1, y1, x2, y2 int) (k float64, b float64) {
 	return float64(y2-y1) / float64(x2-x1), float64(y1) - float64(x1)*float64(y2-y1)/float64(x2-x1)
 }
 
+// * maxPoints2 使用 O(n^3) 暴力解法, 不使用除法求斜率, 避免精度丢失导致误判.
+// * 而是一次收集三个点(x1, y1), (x2, y2), (x3, y3), 由 y2-y1/x2-x1 = y3-y2/x3-x2, 可以得到 (y2-y1)*(x3-x2) = (y3-y2)*(x2-x1), 据此判断即可
+// * 比如, 当 a 很大时, a/(a + 1) 和 a/(a - 1) 的值很接近, 但实际上它们不相等
+func maxPoints2(points [][]int) int {
+	var ans int
+	if len(points) == 1 {
+		return 1
+	}
+	for i := 0; i < len(points); i++ {
+		x1, y1 := points[i][0], points[i][1]
+
+		for j := i + 1; j < len(points); j++ {
+			x2, y2 := points[j][0], points[j][1]
+			cnt := 0
+
+			for k := 0; k < len(points); k++ {
+				x3, y3 := points[k][0], points[k][1]
+				if (y2-y1)*(x3-x2) == (y3-y2)*(x2-x1) {
+					cnt++
+				}
+			}
+			ans = max(ans, cnt)
+		}
+
+	}
+	return ans
+}
+
 // 示例 1：
 // 输入：points = [[1,1],[2,2],[3,3]]
 // 输出：3
@@ -62,4 +90,5 @@ func calculateKB(x1, y1, x2, y2 int) (k float64, b float64) {
 func main() {
 	points := pkg.CreateSlice2D[int]()
 	fmt.Println(maxPoints(points))
+	fmt.Println(maxPoints2(points))
 }

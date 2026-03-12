@@ -59,6 +59,21 @@ func minimumTotal(triangle [][]int) int {
 	}
 	return ans
 }
+
+// minimumTotal2 自下而上 dp, 空间复杂度更低, 为 O(n)
+func minimumTotal2(triangle [][]int) int {
+	dp := make([]int, len(triangle)+1)
+
+	// 从最下层开始向上 dp
+	for i := len(triangle) - 1; i >= 0; i-- { // i 控制层数, 最开始在最后一层
+		for j := 0; j <= i; j++ { // j 控制列数, 从当前行最左列到最右列
+			dp[j] = min(dp[j+1], dp[j]) + triangle[i][j]
+		}
+	}
+	return dp[0]
+}
 func main() {
-	fmt.Println(minimumTotal(pkg.CreateSlice2D[int]()))
+	triangle := pkg.CreateSlice2D[int]()
+	fmt.Println(minimumTotal(triangle))
+	fmt.Println(minimumTotal2(triangle))
 }

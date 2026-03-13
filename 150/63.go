@@ -55,6 +55,29 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 	return dp[rows-1][cols-1]
 }
 
+func uniquePathsWithObstacles2(obstacleGrid [][]int) int {
+	// 一维数组, 只存放当前行的路径数
+	// 路径数继承前一行第一列的路径, 之后随列数递增
+	// 例如遍历到第 n 行了, 此时 dp 数组中存储的是第 n-1 行的路径数
+	// 只需遍历列数递增路径数即可. 如果遇到障碍, 则障碍之后的路径数直接继承上一行相同列的路径数
+	dp := make([]int, len(obstacleGrid[0]))
+	if obstacleGrid[0][0] == 0 {
+		dp[0] = 1
+	}
+	for i := 0; i < len(obstacleGrid); i++ {
+		for j := 0; j < len(obstacleGrid[0]); j++ {
+			if obstacleGrid[i][j] == 1 {
+				dp[j] = 0
+				continue
+			}
+			if j > 0 {
+				dp[j] += dp[j-1]
+			}
+		}
+	}
+	return dp[len(obstacleGrid[0])-1]
+}
+
 // 示例 1：
 // 输入：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 // 输出：2
@@ -69,4 +92,5 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 func main() {
 	obstacleGrid := pkg.CreateSlice2D[int]()
 	fmt.Println(uniquePathsWithObstacles(obstacleGrid))
+	fmt.Println(uniquePathsWithObstacles2(obstacleGrid))
 }

@@ -16,6 +16,7 @@ import (
 	"math"
 )
 
+// 方法一 枚举所有状态. 不易写对, 不易调试
 func maxProfit123(prices []int) int {
 	n := len(prices)
 
@@ -42,6 +43,34 @@ func maxProfit123(prices []int) int {
 	return max(0, dp[n-1][1][0], dp[n-1][2][0])
 }
 
+// 方法二
+// * 思路: 使用两个一维数组 dp1 和 dp2, dp1[i] 表示在 [0, i] 内交易一次的最大利润, dp2[j] 表示在 [j, n) 内交易一次的最大利润
+// * 当遍历到第 i 天时, dp1[i] + dp2[i] 即以 i 为界限, 将两侧交易一次可以获得的最大利润相加
+// * 答案即为这些和中最大的那个
+// * 思路简单易行, 但是使用范围局限性较大
+func maxProfit123_2(prices []int) int {
+	n := len(prices)
+	dp1 := make([]int, n) // dp1[i]: 在 [0, i] 内交易一次的最大利润
+	dp2 := make([]int, n) // dp2[i]: 在 [i, n) 内交易一次的最大利润
+	//dp1[0] = -prices[0]
+	tmpMin := prices[0]
+	for i := 1; i < n; i++ {
+		dp1[i] = max(dp1[i-1], prices[i]-tmpMin)
+		tmpMin = min(tmpMin, prices[i])
+	}
+	tmpMax := prices[n-1]
+	for i := n - 1; i > 0; i-- {
+		dp2[i] = max(dp2[i-1], tmpMax-prices[i])
+		tmpMax = max(tmpMax, prices[i])
+	}
+
+	ans := dp1[0]
+	for i := 0; i < n; i++ {
+		ans = max(ans, dp2[i]+dp1[i])
+	}
+	return ans
+}
+
 // 示例 1:
 // 输入：prices = [3,3,5,0,0,3,1,4]
 // 输出：6
@@ -66,5 +95,7 @@ func maxProfit123(prices []int) int {
 // 输入：prices = [1]
 // 输出：0
 func main() {
-	fmt.Println(maxProfit123(pkg.CreateSlice[int]()))
+	prices := pkg.CreateSlice[int]()
+	fmt.Println(maxProfit123(prices))
+	fmt.Println(maxProfit123_2(prices))
 }

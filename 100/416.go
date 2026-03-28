@@ -37,7 +37,7 @@ func canPartition(nums []int) bool {
 
 	for i := 0; i < n; i++ {
 		for j := 1; j <= target; j++ {
-			if j > nums[i] { // 如果当前 nums[i] 小于要插入的背包的容量 j, 则有两个选择: 塞入背包(dp[i][j-nums[i]]) 或不塞入背包(dp[i-1][j])
+			if j >= nums[i] { // 如果当前 nums[i] 小于要插入的背包的容量 j, 则有两个选择: 塞入背包(dp[i][j-nums[i]]) 或不塞入背包(dp[i-1][j])
 				dp[i+1][j] = dp[i][j] || dp[i][j-nums[i]]
 			} else { // 如果当前 nums[i] 大于要插入的背包的容量 j, 则只能选择不塞入背包(dp[i-1][j])
 				dp[i+1][j] = dp[i][j]

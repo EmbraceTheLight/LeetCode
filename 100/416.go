@@ -47,6 +47,30 @@ func canPartition(nums []int) bool {
 	return dp[n][target]
 }
 
+// 空间复杂度 O(n)
+func canPartition2(nums []int) bool {
+	n := len(nums)
+
+	sum := nums[0]
+	for i := 1; i < n; i++ {
+		sum += nums[i]
+	}
+	if sum%2 != 0 {
+		return false
+	}
+	target := sum / 2
+	dp := make([]bool, target+1) // dp[i]: nums 中的数字, 能否恰好塞满容量为 i 的背包
+
+	dp[0] = true // 不选数字, 容量为 0 的背包一定能塞满
+
+	for i := 0; i < n; i++ {
+		for j := target; j >= nums[i]; j-- {
+			dp[j] = dp[j] || dp[j-nums[i]]
+		}
+	}
+	return dp[target]
+}
+
 // 示例 1：
 // 输入：nums = [1,5,11,5]
 // 输出：true
@@ -59,4 +83,5 @@ func canPartition(nums []int) bool {
 func main() {
 	nums := pkg.CreateSlice[int]()
 	fmt.Println(canPartition(nums))
+	fmt.Println(canPartition2(nums))
 }

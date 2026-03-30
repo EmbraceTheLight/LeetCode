@@ -61,6 +61,26 @@ func sortColors(nums []int) {
 	}
 
 }
+func sortColors2(nums []int) {
+	idx0, idx1 := 0, 0 // idx0: 下一个 0 应放置的位置 idx1: 下一个 1 应放置的位置, nums[idx0:idx1] 之间的数字已经从 0 到 1 排好序了.
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == 0 {
+			nums[i], nums[idx0] = nums[idx0], nums[i]
+			// 如果 idx0 < idx1, 则 idx0 位置上的数字原本是 1, 交换后 nums[i] = 1
+			// 这时, 需要将 nums[i] 与 idx1 位置上的数字交换, 否则会有 1 被交换到后面去, 导致答案不正确. 示例: 1 1 1 2 2 0
+			// 交换后, idx1 的位置上已经为 1, 则将其 + 1
+			// 如果 idx0 == idx1, 则由于最后 1 不可能在 0 前方, 因此 idx1 也要跟着自增, 因此, 这两种情况下, idx1 都要自增
+			if idx0 < idx1 {
+				nums[idx0], nums[idx1] = nums[idx1], nums[idx0]
+			}
+			idx0++
+			idx1++
+		} else if nums[i] == 1 {
+			nums[i], nums[idx1] = nums[idx1], nums[i]
+			idx1++
+		}
+	}
+}
 
 // 示例 1：
 // 输入：nums = [2,0,2,1,1,0]
@@ -71,6 +91,11 @@ func sortColors(nums []int) {
 // 输出：[0,1,2]
 func main() {
 	nums := pkg.CreateSlice[int]()
+	nums1 := make([]int, len(nums))
+	copy(nums1, nums)
 	sortColors(nums)
 	fmt.Println(nums)
+
+	sortColors2(nums1)
+	fmt.Println(nums1)
 }

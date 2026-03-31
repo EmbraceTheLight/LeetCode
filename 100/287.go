@@ -36,6 +36,26 @@ func findDuplicate(nums []int) int {
 	return -1
 }
 
+func findDuplicate2(nums []int) int {
+	n := len(nums)
+	left, right := 1, n // 枚举 nums 中可能出现的值
+	for left < right {
+		mid := (left + right) / 2
+		count := 0
+		for i := 0; i < n; i++ {
+			if nums[i] <= mid { // 遇到数字小于等于 mid 的, 计数 + 1
+				count++
+			}
+		}
+		if count <= mid { // 如果计数小于等于 mid, 说明比 mid 小的数字中没有重复的. 重复的数字比 mid 大
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	return left
+}
+
 // 示例 1：
 // 输入：nums = [1,3,4,2,2]
 // 输出：2
@@ -50,4 +70,5 @@ func findDuplicate(nums []int) int {
 func main() {
 	nums := pkg.CreateSlice[int]()
 	fmt.Println(findDuplicate(nums))
+	fmt.Println(findDuplicate2(nums))
 }

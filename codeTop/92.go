@@ -8,6 +8,8 @@
 1 <= n <= 500
 -500 <= Node.val <= 500
 1 <= left <= right <= n
+
+进阶： 你可以使用一趟扫描完成反转吗？
 */
 package main
 
@@ -63,6 +65,35 @@ func reverse(headNode *pkg.ListNode) (head *pkg.ListNode, tail *pkg.ListNode) {
 	return cur, headNode
 }
 
+func reverseBetween2(head *pkg.ListNode, left int, right int) *pkg.ListNode {
+	dummy := &pkg.ListNode{Next: head}
+	pre, cur := dummy, head
+	var tmp, newTail *pkg.ListNode
+	count := 1 // cur "下标"
+	for {
+		if count == left {
+			tmp = cur
+			newTail = cur
+			cur = cur.Next
+			break
+		}
+		pre = cur
+		cur = cur.Next
+		count++
+	}
+
+	for count != right {
+		next := cur.Next
+		cur.Next = tmp
+		tmp = cur
+		cur = next
+		count++
+	}
+	pre.Next = tmp
+	newTail.Next = cur
+	return dummy.Next
+}
+
 // 示例 1：
 // 输入：head = [1,2,3,4,5], left = 2, right = 4
 // 输出：[1,4,3,2,5]
@@ -76,4 +107,6 @@ func main() {
 	fmt.Scan(&left, &right)
 	prices := pkg.CreateList()
 	pkg.PrintList(reverseBetween(prices, left, right))
+	fmt.Println()
+	pkg.PrintList(reverseBetween2(prices, left, right))
 }

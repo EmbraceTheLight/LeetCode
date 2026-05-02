@@ -48,6 +48,26 @@ func getIntersectionNode(headA, headB *pkg.ListNode) *pkg.ListNode {
 	return nil
 }
 
+func getIntersectionNode2(headA, headB *pkg.ListNode) *pkg.ListNode {
+	curA, curB := headA, headB
+	for curA != nil || curB != nil {
+		if curA == curB {
+			return curA
+		}
+		if curA == nil {
+			curA = headB
+		} else {
+			curA = curA.Next
+		}
+		if curB == nil {
+			curB = headA
+		} else {
+			curB = curB.Next
+		}
+	}
+	return nil
+}
+
 // 示例 1：
 // 输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
 // 输出：Intersected at '8'
@@ -87,4 +107,5 @@ func main() {
 		tmpB.Next = tmpA
 	}
 	pkg.PrintList(getIntersectionNode(headA, headB))
+	pkg.PrintList(getIntersectionNode2(headA, headB))
 }

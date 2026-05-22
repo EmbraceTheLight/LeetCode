@@ -48,7 +48,52 @@ func dfs94(node *pkg.TreeNode, ans *[]int) {
 	*ans = append(*ans, node.Val)
 	dfs94(node.Right, ans)
 }
+
+func inorderTraversal2(root *pkg.TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+	var ans []int
+	type treeNode struct {
+		parent *pkg.TreeNode
+		node   *pkg.TreeNode
+	}
+	stk := make([]*treeNode, 0)
+	stk = append(stk, &treeNode{
+		parent: nil,
+		node:   root,
+	})
+
+	for len(stk) > 0 {
+		top := stk[len(stk)-1]
+		if top.node.Left != nil {
+			stk = append(stk, &treeNode{
+				parent: top.node,
+				node:   top.node.Left,
+			})
+		} else if top.node.Right != nil {
+			ans = append(ans, top.node.Val)
+			stk = stk[:len(stk)-1]
+			if top.parent != nil {
+				top.parent.Left = nil
+			}
+			stk = append(stk, &treeNode{
+				parent: top.node,
+				node:   top.node.Right,
+			})
+		} else {
+			ans = append(ans, top.node.Val)
+			if top.parent != nil {
+				top.parent.Left = nil
+			}
+			stk = stk[:len(stk)-1]
+		}
+	}
+	return ans
+}
+
 func main() {
 	tree := pkg.CreateTree()
 	fmt.Println(inorderTraversal(tree))
+	fmt.Println(inorderTraversal2(tree))
 }

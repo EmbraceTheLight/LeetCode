@@ -49,8 +49,37 @@ func nextPermutation(nums []int) {
 	sort.Slice(nums[targetIdx+1:], func(i, j int) bool {
 		return nums[targetIdx+1+i] < nums[targetIdx+1+j]
 	})
-	fmt.Println(nums[targetIdx+1:])
 	return
+}
+
+func nextPermutation2(nums []int) {
+	/*
+		与上面的解法思路一样, 都是寻找右侧较大的数, 与左侧较小的数交换, 且较小数尽量靠右, 较大数尽可能小(仍位于较小数右侧),
+		这样可以使得当前排列变大, 且变大幅度尽可能小
+		找到这样一对数后, 交换, 并对较小数及其右侧数组进行升序排序, 从而得到下一个排列
+		对于降序数组(如 [3, 2, 1]), 直接升序排序整个数组即可
+
+		升序排序可以使用双指针, 因为较小数及其右侧实际上为降序数组, 直接逆序即可
+	*/
+	n := len(nums)
+	sourceIdx, targetIdx := n-2, n-1
+	for sourceIdx >= 0 && nums[sourceIdx] >= nums[sourceIdx+1] {
+		sourceIdx--
+	}
+	if sourceIdx >= 0 {
+		for targetIdx >= sourceIdx && nums[targetIdx] <= nums[sourceIdx] {
+			targetIdx--
+		}
+		nums[sourceIdx], nums[targetIdx] = nums[targetIdx], nums[sourceIdx]
+	}
+	reverseIntSlice(nums[sourceIdx+1:])
+	return
+}
+
+func reverseIntSlice(nums []int) {
+	for i, j := 0, len(nums)-1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
 }
 
 // 示例 1：
@@ -65,12 +94,13 @@ func nextPermutation(nums []int) {
 // 输入：nums = [1,1,5]
 // 输出：[1,5,1]
 func main() {
-	tmp := []int{2, 1, 3}
-	sort.Slice(tmp[1:], func(i, j int) bool {
-		return tmp[i] < tmp[j]
-	})
-	fmt.Println(tmp)
 	nums := pkg.CreateSlice[int]()
+	nums2 := make([]int, len(nums), cap(nums))
+	copy(nums2, nums)
+
 	nextPermutation(nums)
 	fmt.Println(nums)
+
+	nextPermutation2(nums2)
+	fmt.Println(nums2)
 }

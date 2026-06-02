@@ -26,6 +26,27 @@ func firstMissingPositive(nums []int) int {
 	}
 	return ans
 }
+func firstMissingPositive2(nums []int) int {
+	var ans = len(nums) + 1 // 初始默认 nums 中包含 1, 2, ... , len(nums), 此时最小正数是 len(nums) + 1
+	// 原地哈希. nums[i] = i + 1.
+	n := len(nums)
+	// 原地哈希. nums[i] = i + 1.
+	// nums[i] >= n 或 nums[i] <= 0, 直接跳过
+	for i := 0; i < n; i++ {
+		if nums[i] >= n || nums[i] <= 0 || nums[i] == i+1 || nums[i] == nums[nums[i]-1] {
+			continue
+		}
+		nums[i], nums[nums[i]-1] = nums[nums[i]-1], nums[i]
+		i--
+	}
+	for i := 0; i < n; i++ {
+		if nums[i] != i+1 {
+			ans = i + 1
+			break
+		}
+	}
+	return ans
+}
 
 // 示例 1：
 // 输入：nums = [1,2,0]
@@ -44,4 +65,5 @@ func firstMissingPositive(nums []int) int {
 func main() {
 	nums := pkg.CreateSlice[int]()
 	fmt.Println(firstMissingPositive(nums))
+	fmt.Println(firstMissingPositive2(nums))
 }

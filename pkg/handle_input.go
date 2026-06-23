@@ -61,8 +61,13 @@ func CreateSlice[T constraints.Ordered]() []T {
 	var ret []T
 	scanner := bufio.NewScanner(os.Stdin)
 
+	// 设置缓冲区大小, 可以输入更大的输入. 默认最大为 65535
+	scanner.Buffer(make([]byte, 0, 1024*1024), 1024*1024)
 	fmt.Print("Enter slice (e.g. [1, 2, 3]): ")
 	if !scanner.Scan() {
+		if scanner.Err() != nil {
+			fmt.Println("CreateSlice Error:", scanner.Err())
+		}
 		return ret
 	}
 	input := strings.TrimSpace(scanner.Text())
@@ -72,11 +77,17 @@ func CreateSlice[T constraints.Ordered]() []T {
 func CreateSlice2D[T constraints.Ordered]() [][]T {
 	fmt.Println(`Input 2D Array Slice. (e.g. [[1,2,3],[4,5,6]])`)
 	scanner := bufio.NewScanner(os.Stdin)
+	// 设置缓冲区大小为 1 MB, 可以输入更大的输入. 默认最大为 64 KB
+	scanner.Buffer(make([]byte, 0, 1024*1024), 1024*1024)
 	input := ""
 	var ret = make([][]T, 0)
-	if scanner.Scan() {
-		input = scanner.Text()
+	if !scanner.Scan() {
+		if scanner.Err() != nil {
+			fmt.Println("CreateSlice2D Error:", scanner.Err())
+		}
+		return ret
 	}
+	input = scanner.Text()
 	input = strings.TrimSpace(input)
 	input = input[1 : len(input)-1] // 去掉首尾的方括号
 

@@ -24,6 +24,12 @@ func deleteNode(node *ListNode) {
 	pre.Next = nil
 }
 
+// 最优解法: O(1)
+func deleteNode2(node *ListNode) {
+	node.Val = node.Next.Val
+	node.Next = node.Next.Next
+}
+
 // 示例：
 // 输入：节点 5 （位于单向链表 4->5->1->9 ([4, 5, 1, 9]) 中）
 // 输出：不返回任何数据，从链表中删除传入的节点 5，使链表变为 4->1->9

@@ -42,6 +42,21 @@ func dfs0405(root *TreeNode) (int, int, bool) {
 		return 0, 0, false
 	}
 }
+func isValidBST2(root *TreeNode) bool {
+	return dfs0405_2(root, math.MinInt64, math.MaxInt64)
+}
+
+// dfs0405_2 minValue, maxValue 限定了 root.Val 的范围, 即 minValue < root.Val < maxValue
+// 该递归函数使用先序遍历的方式遍历二叉树, 遍历到子树时, 更新 minValue, maxValue
+func dfs0405_2(root *TreeNode, minValue, maxValue int) bool {
+	if root == nil {
+		return true
+	}
+	if root.Val <= minValue || root.Val >= maxValue {
+		return false
+	}
+	return dfs0405_2(root.Left, minValue, root.Val) && dfs0405_2(root.Right, root.Val, maxValue)
+}
 
 // 示例 1：
 // 输入：[2,1,3]
@@ -79,4 +94,5 @@ func dfs0405(root *TreeNode) (int, int, bool) {
 func main() {
 	tree := CreateTree()
 	fmt.Println(isValidBST(tree))
+	fmt.Println(isValidBST2(tree))
 }

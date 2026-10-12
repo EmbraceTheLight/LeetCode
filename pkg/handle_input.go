@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"golang.org/x/exp/constraints"
 	"os"
@@ -19,7 +20,16 @@ func makeElementSlice[T constraints.Ordered](str string) []T {
 	if len(tmp) == 0 {
 		return nil
 	}
-	parts := strings.Split(tmp, ",")
+
+	// 使用 csv.Reader 而不是 strings.Split：字符串元素本身可能包含逗号，
+	// csv.Reader 能识别双引号包裹的字段，只会分隔引号外部的逗号。
+	csvReader := csv.NewReader(strings.NewReader(tmp))
+	csvReader.TrimLeadingSpace = true
+	parts, parseErr := csvReader.Read()
+	if parseErr != nil {
+		fmt.Fprintf(os.Stderr, "error parsing slice %q: %v\n", str, parseErr)
+		return nil
+	}
 
 	for _, p := range parts {
 		p = strings.TrimSpace(p)
@@ -36,7 +46,6 @@ func makeElementSlice[T constraints.Ordered](str string) []T {
 			v, err = strconv.ParseFloat(p, 64)
 			val = v
 		case string:
-			p = strings.Trim(p, `"`)
 			val = p
 		case byte:
 			p = strings.Trim(p, `'`)
